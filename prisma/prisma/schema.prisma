@@ -1,0 +1,38 @@
+// what is  migration in prisma?
+// jab aapne kuch change kiya model me koi field and ya ek model create kiya
+// jab sql sik rahe the tab dekha ki ane create table models se hame table create t
+// karte the to yehi kaam karta hai migration 
+// migration sql query generate karta hai and database me chalata hae taki database me changes reflect ho jaye
+// @id means primary key
+// @default(autoincrement()) means jab bhi new record create hoga to id ap  ap increment hoga
+// @unique means email field unique hoga database me koi bhi do record same email nahi rakh sakte
+// next step is Generating the prisma client for run query and mutation in database connected to dabase
+// apko gernate karna hoga tab apko show hoga /gerated/prisma folder me internal kuch model and kuch code hoga 
+// kuch file initial face me agar apko use code jadya samajna jarut nahi  
+/// simple way me esa samjoe pg client hota hae wese prisma client hota hai jo ek client createkarna hae 
+// npx prisma generate command se prisma client generate hota hai
+// install npm i @prisma/client command se prisma client install hota hai
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       Int  @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  age       String?
+  createdAt DateTime @default(now())
+}
+
+model Todo {
+  id        Int      @id @default(autoincrement())
+  title     String
+  completed Boolean  @default(false)
+  userId    Int
+}
